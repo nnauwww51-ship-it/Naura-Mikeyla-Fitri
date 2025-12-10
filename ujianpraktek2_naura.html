@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UraStudio - Platform Musik Sosial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Definisi Warna Tema Dark Mode Pro */
+        :root {
+            --primary-color: #8A2BE2; /* Ungu Vivid Violet / Blue Violet */
+            --secondary-color: #333333; /* Abu-abu Gelap */
+            --text-light: #e0e0e0; 
+            --text-dark: #f9f9f9; /* Teks utama lebih terang */
+            --background-main: #1C1C1C; /* Latar belakang sangat gelap */
+            --card-background: #282828; /* Latar belakang Card */
+        }
+
+        /* Atur ulang dasar (Reset) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-main); 
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ---------------- ANIMASI UTAMA ---------------- */
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(0.9); box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.6); }
+            70% { transform: translateX(-50%) scale(1.05); box-shadow: 0 0 0 20px rgba(138, 43, 226, 0); }
+            100% { transform: translateX(-50%) scale(0.9); }
+        }
+
+        /* ---------------- HEADER ---------------- */
+
+        .app-header {
+            background-color: var(--background-main); 
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .app-header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .search-icon {
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            color: var(--text-light);
+        }
+        .search-icon:hover {
+            color: var(--primary-color);
+        }
+
+        /* ---------------- KONTEN UTAMA ---------------- */
+
+        .app-content {
+            padding: 15px 0; 
+            padding-bottom: 80px; 
+            flex-grow: 1; 
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 20px 15px 15px 15px;
+        }
+
+        /* --- Stories/Highlights (Variasi Baru) --- */
+        .stories-bar {
+            display: flex;
+            overflow-x: scroll;
+            padding: 10px 5px;
+            -webkit-overflow-scrolling: touch; 
+        }
+        .stories-bar::-webkit-scrollbar { display: none; }
+
+        .story-item {
+            flex: 0 0 70px; /* Ukuran bulat */
+            height: 70px;
+            border-radius: 50%;
+            margin: 0 10px;
+            background: linear-gradient(45deg, #FFD700, var(--primary-color)); /* Gradient Border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3px; 
+            cursor: pointer;
+        }
+        .story-item-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: var(--card-background); /* Latar belakang Card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            color: var(--text-light);
+        }
+
+        /* --- Trending Carousel (Horizontal Scroll) --- */
+        .trending-carousel {
+            display: flex;
+            overflow-x: scroll; 
+            padding: 0 10px 15px 10px; 
+            -webkit-overflow-scrolling: touch;
+        }
+        .trending-carousel::-webkit-scrollbar { display: none; }
+        .trending-item {
+            flex: 0 0 160px; 
+            margin: 0 8px;
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .trending-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(138, 43, 226, 0.4);
+        }
+        .trending-item .cover-icon {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        .trending-item h4 {
+            font-size: 1em;
+            color: var(--text-dark);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .trending-item p {
+            font-size: 0.75em;
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+        
+        /* --- Feed Content (Vertical List) --- */
+        .feed-list {
+            padding: 5px 15px;
+        }
+        .content-card {
+            background-color: var(--card-background);
+            border-radius: 16px; /* Lebih membulat */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .content-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color); /* Border lebih tebal */
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            margin-right: 12px;
+            font-size: 1.2em;
+            background-color: var(--secondary-color);
+        }
+
+        .song-info h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .song-info p {
+            font-size: 0.9em;
+            color: var(--text-light);
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .actions span {
+            margin-right: 25px;
+            color: var(--text-light);
+            font-size: 1em;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .actions span:hover {
+            color: var(--primary-color);
+        }
+
+        /* ---------------- NAVIGASI BAWAH ---------------- */
+
+        .bottom-nav {
+            background-color: var(--card-background);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed; 
+            bottom: 0;
+            width: 100%;
+            height: 70px; 
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.75em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+        }
+
+        /* Tombol Plus Besar untuk Merekam */
+        .record-button {
+            background-color: var(--primary-color);
+            color: var(--text-dark);
+            width: 65px; /* Lebih besar */
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em; /* Ikon lebih besar */
+            position: absolute;
+            bottom: 10px; 
+            left: 50%;
+            animation: pulse 2s infinite; 
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.7);
+            z-index: 101;
+            transform: translateX(-50%); /* Penempatan yang lebih baik */
+            line-height: 1; 
+            border: 6px solid var(--background-main); /* Border kontras */
+        }
+        .record-button:hover {
+            animation: none;
+            box-shadow: 0 4px 10px rgba(138, 43, 226, 1);
+        }
+        .nav-item:not(.record-button) {
+            min-width: 20%;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>UraStudio</h1>
+        <div class="search-icon">🔍</div>
+    </header>
+
+    <main class="app-content">
+        
+        <h2 class="section-title">⭐ Studio Highlights</h2>
+        <div class="stories-bar">
+            <div class="story-item"><div class="story-item-inner">➕</div></div>
+            <div class="story-item"><div class="story-item-inner">🎤</div></div>
+            <div class="story-item"><div class="story-item-inner">🎸</div></div>
+            <div class="story-item"><div class="story-item-inner">🎹</div></div>
+            <div class="story-item"><div class="story-item-inner">🎧</div></div>
+            <div class="story-item"><div class="story-item-inner">🎉</div></div>
+            <div class="story-item"><div class="story-item-inner">🔥</div></div>
+        </div>
+
+        <h2 class="section-title">🔥 Trending Hari Ini</h2>
+        <div class="trending-carousel">
+            <div class="trending-item">
+                <div class="cover-icon">🏆</div>
+                <h4>Top 10 Duet</h4>
+                <p>Oleh: Admin Playlist</p>
+            </div>
+            <div class="trending-item">
+                <div class="cover-icon">🎤</div>
+                <h4>Lagu Pop Terbaru</h4>
+                <p>15k Duet Hari Ini</p>
+            </div>
+            <div class="trending-item">
+                <div class="cover-icon">🎸</div>
+                <h4>Rock Legenda</h4>
+                <p>Soundtrack Terbaik</p>
+            </div>
+            <div class="trending-item">
+                <div class="cover-icon">🎶</div>
+                <h4>Akustik Santai</h4>
+                <p>Duet_Harmoni</p>
+            </div>
+            <div class="trending-item">
+                <div class="cover-icon">⭐</div>
+                <h4>Cover Terpopuler</h4>
+                <p>Penyanyi: Vina_Star</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">✨ Umpan Aktivitas</h2>
+        <div class="feed-list">
+            <div class="content-card">
+                <div class="user-info">
+                    <div class="avatar" style="background-color: #DA70D6;">V</div>
+                    <strong>Vocal_Power</strong>
+                </div>
+                <div class="song-info">
+                    <h3>🎵 Lagu: Semesta Bicara</h3>
+                    <p>Skor Vokal: 8.5/10 | Genre: Pop Balada</p>
+                </div>
+                <div class="actions">
+                    <span>❤️ 3.1k</span>
+                    <span>💬 400</span>
+                    <span>🔗 Bagikan</span>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <div class="user-info">
+                    <div class="avatar" style="background-color: #00CED1;">S</div>
+                    <strong>Syahdu_Nada</strong>
+                </div>
+                <div class="song-info">
+                    <h3>🎹 Lagu: Janji Senja</h3>
+                    <p>Skor Vokal: 9.2/10 | Duet dengan: Dito_Official</p>
+                </div>
+                <div class="actions">
+                    <span>❤️ 1.8k</span>
+                    <span>💬 190</span>
+                    <span>🔗 Bagikan</span>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="user-info">
+                    <div class="avatar" style="background-color: #FFA07A;">R</div>
+                    <strong>Rock_N_Roll_Man</strong>
+                </div>
+                <div class="song-info">
+                    <h3>🔥 Lagu: Genggaman Dunia</h3>
+                    <p>Skor Vokal: 7.8/10 | Genre: Hard Rock</p>
+                </div>
+                <div class="actions">
+                    <span>❤️ 950</span>
+                    <span>💬 120</span>
+                    <span>🔗 Bagikan</span>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="user-info">
+                    <div class="avatar" style="background-color: #F08080;">L</div>
+                    <strong>Lagu_Malam</strong>
+                </div>
+                <div class="song-info">
+                    <h3>🌙 Lagu: Di Bawah Bintang</h3>
+                    <p>Skor Vokal: 8.9/10 | Rekaman: 2 Jam Lalu</p>
+                </div>
+                <div class="actions">
+                    <span>❤️ 2.2k</span>
+                    <span>💬 350</span>
+                    <span>🔗 Bagikan</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active">
+            🏠 Beranda
+        </a>
+        <a href="#" class="nav-item">
+            🎤 Karaoke
+        </a>
+        <a href="#" class="nav-item record-button" title="Mulai Rekam">
+            +
+        </a>
+        <a href="#" class="nav-item">
+            🔔 Notif
+        </a>
+        <a href="#" class="nav-item">
+            👤 Saya
+        </a>
+    </nav>
+
+</body>
+</html>
